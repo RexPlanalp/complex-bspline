@@ -116,6 +116,14 @@ impl BSpline {
             }
         }
 
+        let metadata_file = File::create("dB_meta.txt")?;
+        let mut writer = BufWriter::new(metadata_file);
+
+        writeln!(writer, "{}", self.n)?;
+        for &x in &x_range {
+            writeln!(writer, "{x}")?;
+        }
+
         Ok(())
     }
 
@@ -134,9 +142,10 @@ impl BSpline {
             term1 = Complex64::from(degree as f64) / denom1 * self.b_recursive(i, x, degree - 1);
         }
         if denom2.abs() != 0.0 {
-            term2 = Complex64::from(degree as f64) / denom2 * self.b_recursive(i + 1, x, degree - 1);
+            term2 =
+                Complex64::from(degree as f64) / denom2 * self.b_recursive(i + 1, x, degree - 1);
         }
-        
+
         term1 - term2
     }
 }
