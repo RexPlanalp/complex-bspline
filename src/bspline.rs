@@ -1,5 +1,8 @@
 use crate::knots::{KnotVector, KnotVectorConfig};
 use num_complex::{ComplexFloat,Complex64};
+use crate::util::arange;
+use std::fs::File;
+use std::io::{BufWriter, Write};
 
 pub struct BSpline {
     n: usize,
@@ -16,7 +19,7 @@ impl BSpline {
             n: n + order,
             r0,
             eta,
-            multiplicity: order -1
+            multiplicity: order
         };
 
         let knot_vector = KnotVector::new(knot_vector_config);
@@ -25,12 +28,30 @@ impl BSpline {
     }
 
     pub fn b(&self, i: usize, x: f64) -> Complex64 {
-        self.b_recursive(i, x, self.degree)
+        let complex_x  = if x < self.knot_vector.config.r0 {Complex64::new(x, 0.0)} else {Complex64::new(self.knot_vector.config.r0, 0.0) + (x - self.knot_vector.config.r0) * Complex64::new(0.0, self.knot_vector.config.eta).exp()};
+        self.b_recursive(i, complex_x, self.degree)
     }
 
-    fn b_recursive(&self, i: usize, x: f64, degree:usize) -> Complex64 {
+    pub fn dump_b(&self, resolution: f64) -> std::io::Result<()> {
+        let output_file = File::create("B.txt")?;
+        let mut writer = BufWriter::new(output_file);
+
+        let x_range = arange(self.knot_vector.config.start, self.knot_vector.config.end, resolution);
+
+        for i in 0..self.n {
+            for &x in &x_range {
+                let eval = self.b(i, x);
+                writeln!(writer, "{} {}", eval.re, eval.im)?;
+            }
+        }
+
+        Ok(())
+
+    }
+
+    fn b_recursive(&self, i: usize, x: Complex64, degree:usize) -> Complex64 {
         if degree == 0 {
-            return if self.knot_vector.in_interval(x, i) {
+            return if self.knot_vector.in_interval(x.re, i) {
                 Complex64::new(1.0, 0.0)
             }
             else {

@@ -16,7 +16,7 @@ pub struct KnotVectorConfig{
 #[derive(Debug)]
 pub struct KnotVector{
     knots: Vec<Complex64>,
-    config: KnotVectorConfig
+    pub config: KnotVectorConfig
 }
 
 impl KnotVector {
@@ -25,17 +25,17 @@ impl KnotVector {
         let n_middle = config.n - 2 * config.multiplicity;
         let step: f64 = (config.end - config.start) / ((n_middle - 1) as f64);
 
-        for _ in 0..(config.multiplicity-1) {
-            knots.push(Complex64::from(config.start));
-        }
+        for _ in 0..config.multiplicity {
+    knots.push(Complex64::from(config.start));
+}
 
-        for idx in 0..n_middle {
-            knots.push(Complex64::from(config.start + (idx as f64) * step));
-        }
+for idx in 0..n_middle {
+    knots.push(Complex64::from(config.start + (idx as f64) * step));
+}
 
-        for _ in 0..(config.multiplicity-1) {
-            knots.push(Complex64::from(config.end));
-        }
+for _ in 0..config.multiplicity {
+    knots.push(Complex64::from(config.end));
+}
 
         config.r0 = Self::find_best_r0(&knots, config.r0);
 
