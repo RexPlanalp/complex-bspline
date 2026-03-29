@@ -14,5 +14,5 @@ fn main() {
 
     let knot_vector = KnotVector::new(knot_config);
 
-    print!("{:#?}", knot_vector);
+    knot_vector.dump();
 }

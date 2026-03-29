@@ -1,4 +1,6 @@
 use num_complex::Complex64;
+use std::fs::File;
+use std::io::{BufWriter, Write};
 
 #[derive(Debug)]
 pub struct KnotVectorConfig{
@@ -36,11 +38,21 @@ impl KnotVector {
 
         config.r0 = Self::find_best_r0(&knots, config.r0);
 
-        let knots: Vec<Complex64> = knots.iter().map(|x| if (x.re < config.r0) {*x} else {Complex64::new(config.r0, 0.0) + (x.re - config.r0) * Complex64::new(0.0, config.eta).exp()}).collect();
-        
+        let knots: Vec<Complex64> = knots.iter().map(|x| if x.re < config.r0 {*x} else {Complex64::new(config.r0, 0.0) + (x.re - config.r0) * Complex64::new(0.0, config.eta).exp()}).collect();
+
         Self { knots, config }
     }
 
+    pub fn dump(&self) -> std::io::Result<()> {
+    let output_file = File::create("knots.txt")?;
+    let mut writer = BufWriter::new(output_file);
+
+    for x in &self.knots {
+        writeln!(writer, "{} {}", x.re, x.im)?;
+    }
+
+    Ok(())
+    }
 
     fn find_best_r0(knots: &Vec<Complex64>, r0: f64) -> f64 {
         let mut best_match = knots[0].re;
