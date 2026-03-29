@@ -82,4 +82,50 @@ impl BSpline {
 
         return term1 + term2;
     }
+
+    pub fn db(&self, i: usize, x: f64) -> Complex64 {
+        let complex_x = ecs_x(x, self.knot_vector.config.r0, self.knot_vector.config.eta);
+        self.db_recursive(i, complex_x, self.degree)
+    }
+
+    pub fn dump_db(&self, resolution: f64) -> std::io::Result<()> {
+        let output_file = File::create("dB.txt")?;
+        let mut writer = BufWriter::new(output_file);
+
+        let x_range = arange(
+            self.knot_vector.config.start,
+            self.knot_vector.config.end,
+            resolution,
+        );
+
+        for i in 0..self.n {
+            for &x in &x_range {
+                let eval = self.db(i, x);
+                writeln!(writer, "{} {}", eval.re, eval.im)?;
+            }
+        }
+
+        Ok(())
+    }
+
+    fn db_recursive(&self, i: usize, x: Complex64, degree: usize) -> Complex64 {
+        if degree == 0 {
+            return Complex64::from(0.0);
+        }
+
+        let denom1 = self.knot_vector[i + degree] - self.knot_vector[i];
+        let denom2 = self.knot_vector[i + degree + 1] - self.knot_vector[i + 1];
+
+        let mut term1 = Complex64::from(0.0);
+        let mut term2 = Complex64::from(0.0);
+
+        if denom1.abs() != 0.0 {
+            term1 = Complex64::from(degree as f64) / denom1 * self.b_recursive(i, x, degree - 1);
+        }
+        if denom2.abs() != 0.0 {
+            term2 = Complex64::from(degree as f64) / denom2 * self.b_recursive(i + 1, x, degree - 1);
+        }
+        
+        term1 - term2
+    }
 }

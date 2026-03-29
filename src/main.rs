@@ -19,4 +19,5 @@ fn main() {
     let bspline = BSpline::new(0.0, 10.0, 30, 7, 5.0, PI / 4.0);
 
     bspline.dump_b(0.01);
+    bspline.dump_db(0.01);
 }
