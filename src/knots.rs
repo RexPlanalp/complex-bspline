@@ -16,7 +16,7 @@ struct KnotVector{
 
 
 impl KnotVector {
-    fn build(start: f64, end: f64, config: KnotVectorConfig) -> Self {
+    fn new(config: KnotVectorConfig) -> Self {
         todo!()
     }
 }
