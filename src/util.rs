@@ -1,4 +1,4 @@
-use::num_complex::Complex64;
+use ::num_complex::Complex64;
 
 pub fn arange(start: f64, end: f64, step: f64) -> Vec<f64> {
     let span = end - start;
@@ -19,5 +19,9 @@ pub fn arange(start: f64, end: f64, step: f64) -> Vec<f64> {
 }
 
 pub fn ecs_x(x: f64, r0: f64, eta: f64) -> Complex64 {
-    if x < r0 {Complex64::from(x)} else {r0 + (x - r0) * Complex64::new(0.0, eta).exp()}
+    if x < r0 {
+        Complex64::from(x)
+    } else {
+        r0 + (x - r0) * Complex64::new(0.0, eta).exp()
+    }
 }

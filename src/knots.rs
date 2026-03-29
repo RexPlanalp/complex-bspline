@@ -1,11 +1,11 @@
+use crate::util::ecs_x;
 use num_complex::Complex64;
 use std::fs::File;
 use std::io::{BufWriter, Write};
-use std::ops::{Index};
-use crate::util::ecs_x;
+use std::ops::Index;
 
 #[derive(Debug)]
-pub struct KnotVectorConfig{
+pub struct KnotVectorConfig {
     pub start: f64,
     pub end: f64,
     pub n: usize,
@@ -15,9 +15,9 @@ pub struct KnotVectorConfig{
 }
 
 #[derive(Debug)]
-pub struct KnotVector{
+pub struct KnotVector {
     knots: Vec<Complex64>,
-    pub config: KnotVectorConfig
+    pub config: KnotVectorConfig,
 }
 
 impl KnotVector {
@@ -27,20 +27,23 @@ impl KnotVector {
         let step: f64 = (config.end - config.start) / ((n_middle - 1) as f64);
 
         for _ in 0..config.multiplicity {
-    knots.push(Complex64::from(config.start));
-}
+            knots.push(Complex64::from(config.start));
+        }
 
-for idx in 0..n_middle {
-    knots.push(Complex64::from(config.start + (idx as f64) * step));
-}
+        for idx in 0..n_middle {
+            knots.push(Complex64::from(config.start + (idx as f64) * step));
+        }
 
-for _ in 0..config.multiplicity {
-    knots.push(Complex64::from(config.end));
-}
+        for _ in 0..config.multiplicity {
+            knots.push(Complex64::from(config.end));
+        }
 
         config.r0 = Self::find_best_r0(&knots, config.r0);
 
-        let knots: Vec<Complex64> = knots.iter().map(|x| {ecs_x(x.re, config.r0, config.eta)}).collect();
+        let knots: Vec<Complex64> = knots
+            .iter()
+            .map(|x| ecs_x(x.re, config.r0, config.eta))
+            .collect();
 
         Self { knots, config }
     }
@@ -50,14 +53,14 @@ for _ in 0..config.multiplicity {
     }
 
     pub fn dump(&self) -> std::io::Result<()> {
-    let output_file = File::create("knots.txt")?;
-    let mut writer = BufWriter::new(output_file);
+        let output_file = File::create("knots.txt")?;
+        let mut writer = BufWriter::new(output_file);
 
-    for x in &self.knots {
-        writeln!(writer, "{} {}", x.re, x.im)?;
-    }
+        for x in &self.knots {
+            writeln!(writer, "{} {}", x.re, x.im)?;
+        }
 
-    Ok(())
+        Ok(())
     }
 
     fn find_best_r0(knots: &Vec<Complex64>, r0: f64) -> f64 {
