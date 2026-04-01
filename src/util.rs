@@ -12,7 +12,7 @@ pub fn arange(start: f64, end: f64, step: f64, inclusive: bool) -> Vec<f64> {
 
     let mut out = Vec::with_capacity(n_intervals + 1);
 
-    let (a,b) = if inclusive {
+    let (a, b) = if inclusive {
         (0, n_intervals + 1)
     } else {
         (1, n_intervals)

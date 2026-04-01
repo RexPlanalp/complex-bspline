@@ -44,7 +44,7 @@ impl BSpline {
             self.knot_vector.config.start,
             self.knot_vector.config.end,
             resolution,
-            true
+            true,
         );
 
         for i in 0..self.n {
@@ -74,19 +74,23 @@ impl BSpline {
             };
         }
 
+        let zero = Complex64::from(0.0);
+
         let denom1 = self.knot_vector[i + degree] - self.knot_vector[i];
         let denom2 = self.knot_vector[i + degree + 1] - self.knot_vector[i + 1];
 
-        let mut term1 = Complex64::from(0.0);
-        let mut term2 = Complex64::from(0.0);
+        let term1 = if denom1.abs() > 0.0 {
+            (x - self.knot_vector[i]) / (denom1) * self.b_recursive(i, x, degree - 1)
+        } else {
+            zero
+        };
 
-        if denom1.abs() != 0.0 {
-            term1 = (x - self.knot_vector[i]) / (denom1) * self.b_recursive(i, x, degree - 1);
-        }
-        if denom2.abs() != 0.0 {
-            term2 = (self.knot_vector[i + degree + 1] - x) / (denom2)
-                * self.b_recursive(i + 1, x, degree - 1);
-        }
+        let term2 = if denom2.abs() > 0.0 {
+            (self.knot_vector[i + degree + 1] - x) / (denom2)
+                * self.b_recursive(i + 1, x, degree - 1)
+        } else {
+            zero
+        };
 
         return term1 + term2;
     }
@@ -107,7 +111,7 @@ impl BSpline {
             self.knot_vector.config.start,
             self.knot_vector.config.end,
             resolution,
-            true
+            true,
         );
 
         for i in 0..self.n {
@@ -136,16 +140,19 @@ impl BSpline {
         let denom1 = self.knot_vector[i + degree] - self.knot_vector[i];
         let denom2 = self.knot_vector[i + degree + 1] - self.knot_vector[i + 1];
 
-        let mut term1 = Complex64::from(0.0);
-        let mut term2 = Complex64::from(0.0);
+        let zero = Complex64::from(0.0);
 
-        if denom1.abs() != 0.0 {
-            term1 = Complex64::from(degree as f64) / denom1 * self.b_recursive(i, x, degree - 1);
-        }
-        if denom2.abs() != 0.0 {
-            term2 =
-                Complex64::from(degree as f64) / denom2 * self.b_recursive(i + 1, x, degree - 1);
-        }
+        let term1 = if denom1.abs() > 0.0 {
+            Complex64::from(degree as f64) / denom1 * self.b_recursive(i, x, degree - 1)
+        } else {
+            zero
+        };
+
+        let term2 = if denom2.abs() > 0.0 {
+            Complex64::from(degree as f64) / denom2 * self.b_recursive(i + 1, x, degree - 1)
+        } else {
+            zero
+        };
 
         term1 - term2
     }
