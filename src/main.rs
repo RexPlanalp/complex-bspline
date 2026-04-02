@@ -1,23 +1,16 @@
-use complex_bspline::bspline::BSpline;
-use complex_bspline::knots::{KnotVector, KnotVectorConfig};
+
+use complex_bspline::knots_test::{KnotVector, KnotConfig, RealKnotVector};
 use std::f64::consts::PI;
 
 fn main() {
-    let knot_config = KnotVectorConfig {
+    let knot_config = KnotConfig {
+        n_knots: 30,
+        multiplicity: 4,
         start: 0.0,
-        end: 10.0,
-        n: 50,
-        r0: 7.0,
-        eta: PI * 0.25,
-        multiplicity: 3,
+        end: 10.0
     };
 
-    let knot_vector = KnotVector::new(knot_config);
+    let real_knots = RealKnotVector::build(knot_config);
 
-    let _ = knot_vector.dump();
-
-    let bspline = BSpline::new(0.0, 10.0, 30, 7, 5.0, PI / 4.0);
-
-    bspline.dump_b(0.01);
-    bspline.dump_db(0.01);
+    println!("{:?}", real_knots);
 }

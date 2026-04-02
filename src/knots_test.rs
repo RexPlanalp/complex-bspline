@@ -49,14 +49,15 @@ pub trait KnotVector<T: ComplexFloat<Real = f64>> {
             .collect()
     }
 }
-
 pub struct KnotConfig {
     pub n_knots: usize,
     pub multiplicity: usize,
     pub start: f64,
     pub end: f64,
+
 }
-struct RealKnotVector {
+#[derive(Debug)]
+pub struct RealKnotVector {
     knots: Vec<f64>
 }
 
@@ -85,7 +86,7 @@ pub struct ComplexKnotConfig {
     pub ecs_config: EcsConfig
 }
 
-struct ComplexKnotVector {
+pub struct ComplexKnotVector {
     knots: Vec<Complex64>
 }
 
