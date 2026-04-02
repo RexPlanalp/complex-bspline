@@ -2,6 +2,8 @@ pub mod bspline;
 pub mod knots;
 mod util;
 
+pub mod knots_test;
+
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
 }
