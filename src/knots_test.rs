@@ -1,6 +1,7 @@
 use num_complex::{ComplexFloat, Complex64};
 use std::io::{BufWriter, Write};
 use std::fs::File;
+use std::path::Path;
 
 pub trait KnotVector<T: ComplexFloat<Real = f64>> {
     type Config;
@@ -15,7 +16,8 @@ pub trait KnotVector<T: ComplexFloat<Real = f64>> {
     }
 
     fn dump(&self) -> std::io::Result<()> {
-        let output_file = File::create(self.get_outfile())?;
+        let path = Path::new("output").join(self.get_outfile());
+        let output_file = File::create(path)?;
         let mut writer = BufWriter::new(output_file);
 
         for x in self.get_knots() {
@@ -85,7 +87,7 @@ pub struct ComplexKnotConfig {
     pub knot_config: KnotConfig,
     pub ecs_config: EcsConfig
 }
-
+#[derive(Debug)]
 pub struct ComplexKnotVector {
     knots: Vec<Complex64>
 }

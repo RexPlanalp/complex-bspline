@@ -1,5 +1,5 @@
 
-use complex_bspline::knots_test::{KnotVector, KnotConfig, RealKnotVector};
+use complex_bspline::knots_test::{KnotVector, KnotConfig, RealKnotVector, EcsConfig, ComplexKnotConfig, ComplexKnotVector};
 use std::f64::consts::PI;
 
 fn main() {
@@ -10,7 +10,18 @@ fn main() {
         end: 10.0
     };
 
-    let real_knots = RealKnotVector::build(knot_config);
+    let ecs_config = EcsConfig {
+        r0: 5.0,
+        eta: PI / 4.0
+    };
 
-    println!("{:?}", real_knots);
+    let complex_knot_config = ComplexKnotConfig {
+        knot_config,
+        ecs_config
+    };
+
+    let complex_knots = ComplexKnotVector::build(complex_knot_config);
+    let _ = complex_knots.dump();
+
+    println!("{:?}", complex_knots);
 }
