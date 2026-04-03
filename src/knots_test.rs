@@ -117,9 +117,10 @@ impl ComplexKnotVector {
 impl KnotVector<Complex64> for ComplexKnotVector {
     type Config = ComplexKnotConfig;
 
-    fn build(config: Self::Config) -> Self {
+    fn build(mut config: Self::Config) -> Self {
         let knots = Self::build_linear_knots(config.knot_config.n_knots, config.knot_config.multiplicity, config.knot_config.start, config.knot_config.end);
 
+        config.ecs_config.r0 = Self::find_best_r0(&knots, config.ecs_config.r0);
         let complex_knots: Vec<Complex64> = knots
             .iter()
             .map(|x| Self::ecs_x(x.re(), config.ecs_config.r0, config.ecs_config.eta))
