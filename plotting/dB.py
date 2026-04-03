@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 dB = np.loadtxt("output/dB.txt")
-metadata = np.loadtxt("output/dB_meta.txt")
+metadata = np.loadtxt("output/basis_meta.txt")
 n_splines = int(metadata[0])
 x = metadata[1:]
 n_x = len(x)

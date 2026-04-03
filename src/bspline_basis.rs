@@ -86,7 +86,17 @@ pub trait BSplineBasis<T: ComplexFloat<Real = f64> + Zero + One + FromPrimitive>
             }
         }
 
-        let metadata_file = File::create("output/B_meta.txt")?;
+        let output_file = File::create("output/dB.txt")?;
+        let mut writer = BufWriter::new(output_file);
+
+        for i in 0..self.get_n_basis() {
+            for &x in &x_range {
+                let eval = self.db(i, x);
+                writeln!(writer, "{} {}", eval.re(), eval.im())?;
+            }
+        }
+
+        let metadata_file = File::create("output/basis_meta.txt")?;
         let mut writer = BufWriter::new(metadata_file);
 
         writeln!(writer, "{}", self.get_n_basis())?;
