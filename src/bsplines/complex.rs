@@ -5,6 +5,7 @@ use crate::bsplines::real::BSplineBasisConfig;
 use crate::knots::real::{KnotConfig, RealKnotVector};
 use num_complex::Complex64;
 use crate::ecs::{ecs_x, find_best_r0};
+use crate::bsplines::math::{b_internal, db_internal};
 
 pub struct ComplexBSplineBasisConfig {
     pub config: BSplineBasisConfig,
@@ -60,12 +61,12 @@ impl BSplineBasis<Complex64> for ComplexBSplineBasis {
 
     fn b(&self, i: usize, x: f64) -> Complex64 {
         let x_complex = ecs_x(x, self.config.ecs_config.r0, self.config.ecs_config.eta);
-        self.b_internal(i, x_complex, self.degree)
+        b_internal(i, x_complex, &self.knot_vector, self.degree)
     }
 
     fn db(&self, i: usize, x: f64) -> Complex64 {
         let x_complex = ecs_x(x, self.config.ecs_config.r0, self.config.ecs_config.eta);
-        self.db_internal(i, x_complex, self.degree)
+        db_internal(i, x_complex, &self.knot_vector, self.degree)
     }
 
     fn get_knot_vector(&self) -> &Self::KV {

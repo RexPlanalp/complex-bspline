@@ -11,8 +11,8 @@ pub trait KnotVector<T: BSplineScalar> {
         "knots.txt"
     }
 
-    fn in_interval(&self, x: f64, i: usize) -> bool {
-        x >= self.get_knots()[i].re() && x < self.get_knots()[i + 1].re()
+    fn in_interval(&self, x: T, i: usize) -> bool {
+        x.re() >= self.get_knots()[i].re() && x.re() < self.get_knots()[i + 1].re()
     }
 
     fn validate_knot_config(n_knots: usize, multiplicity: usize, start: f64, end: f64) {

@@ -1,7 +1,7 @@
 use crate::bsplines::basis::BSplineBasis;
 use crate::knots::real::{KnotConfig, RealKnotVector};
 use crate::knots::knot_vector::KnotVector;
-
+use crate::bsplines::math::{b_internal,db_internal};
 pub struct BSplineBasisConfig {
     pub start: f64,
     pub end: f64,
@@ -39,11 +39,11 @@ impl BSplineBasis<f64> for RealBSplineBasis {
     }
 
     fn b(&self, i: usize, x: f64) -> f64 {
-        self.b_internal(i, x, self.degree)
+        b_internal(i, x, &self.knot_vector, self.degree)
     }
 
     fn db(&self, i: usize, x: f64) -> f64 {
-        self.db_internal(i, x, self.degree)
+        db_internal(i, x, &self.knot_vector, self.degree)
     }
 
     fn get_knot_vector(&self) -> &Self::KV {
