@@ -1,4 +1,4 @@
-use crate::knot_vector::KnotVector;
+use crate::knots::knot_vector::KnotVector;
 use crate::util::arange;
 use num_complex::ComplexFloat;
 use num_traits::{FromPrimitive, One, Zero};

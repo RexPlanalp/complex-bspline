@@ -1,5 +1,4 @@
-use crate::knot_vector::KnotVector;
-use crate::real_knot_vector::KnotConfig;
+use crate::knots::{knot_vector::KnotVector, real::KnotConfig};
 use num_complex::{Complex64, ComplexFloat};
 pub struct EcsConfig {
     pub r0: f64,

@@ -1,5 +1,4 @@
-use crate::knot_vector::KnotVector;
-
+use crate::knots::knot_vector::KnotVector;
 pub struct KnotConfig {
     pub n_knots: usize,
     pub multiplicity: usize,

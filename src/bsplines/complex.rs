@@ -1,8 +1,8 @@
-use crate::bspline_basis::BSplineBasis;
-use crate::complex_knot_vector::{ComplexKnotConfig, ComplexKnotVector, EcsConfig};
-use crate::knot_vector::KnotVector;
-use crate::real_bspline_basis::BSplineBasisConfig;
-use crate::real_knot_vector::{KnotConfig, RealKnotVector};
+use crate::bsplines::basis::BSplineBasis;
+use crate::knots::complex::{ComplexKnotVector, ComplexKnotConfig, EcsConfig};
+use crate::knots::knot_vector::KnotVector;
+use crate::bsplines::real::BSplineBasisConfig;
+use crate::knots::real::{KnotConfig, RealKnotVector};
 use num_complex::Complex64;
 
 pub struct ComplexBSplineBasisConfig {
