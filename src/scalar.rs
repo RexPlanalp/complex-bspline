@@ -1,7 +1,7 @@
 
 use num_complex::{ComplexFloat, Complex64};
-use num_traits::{Zero, One, FromPrimitive};
-pub trait BSplineScalar: ComplexFloat<Real = f64> + Zero + One + FromPrimitive {
+use num_traits::{Zero, One};
+pub trait BSplineScalar: ComplexFloat<Real = f64> + Zero + One {
     fn from_usize(n: usize) -> Self;
 }
 
