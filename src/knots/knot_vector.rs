@@ -1,10 +1,9 @@
-use num_complex::ComplexFloat;
-use num_traits::{FromPrimitive, One, Zero};
+use crate::scalar::BSplineScalar;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::Path;
 
-pub trait KnotVector<T: ComplexFloat<Real = f64> + Zero + One + FromPrimitive> {
+pub trait KnotVector<T: BSplineScalar> {
     type Config;
 
     fn build(config: Self::Config) -> Self;

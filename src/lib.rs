@@ -2,6 +2,7 @@ mod util;
 
 pub mod knots;
 pub mod bsplines;
+pub mod scalar;
 
 pub fn add(left: u64, right: u64) -> u64 {
     left + right

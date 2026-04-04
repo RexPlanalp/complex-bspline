@@ -1,10 +1,9 @@
 use crate::knots::knot_vector::KnotVector;
 use crate::util::arange;
-use num_complex::ComplexFloat;
-use num_traits::{FromPrimitive, One, Zero};
+use crate::scalar::BSplineScalar;
 use std::fs::File;
 use std::io::{BufWriter, Write};
-pub trait BSplineBasis<T: ComplexFloat<Real = f64> + Zero + One + FromPrimitive> {
+pub trait BSplineBasis<T: BSplineScalar> {
     type Config;
     type KV: KnotVector<T>;
 
@@ -56,13 +55,13 @@ pub trait BSplineBasis<T: ComplexFloat<Real = f64> + Zero + One + FromPrimitive>
             - self.get_knot_vector().get_knots()[i + 1];
 
         let term1 = if denom1.abs() > 0.0 {
-            T::from_usize(degree).unwrap() / denom1 * self.b_internal(i, x, degree - 1)
+            <T as BSplineScalar>::from_usize(degree) / denom1 * self.b_internal(i, x, degree - 1)
         } else {
             T::zero()
         };
 
         let term2 = if denom2.abs() > 0.0 {
-            T::from_usize(degree).unwrap() / denom2 * self.b_internal(i + 1, x, degree - 1)
+            <T as BSplineScalar>::from_usize(degree) / denom2 * self.b_internal(i + 1, x, degree - 1)
         } else {
             T::zero()
         };
