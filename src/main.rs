@@ -1,8 +1,12 @@
 use std::f64::consts::PI;
 
-use complex_bspline::knots::complex::EcsConfig;
-use complex_bspline::bsplines::{basis::BSplineBasis, real::{ BSplineBasisConfig}, complex::{ComplexBSplineBasis, ComplexBSplineBasisConfig}};
 use complex_bspline::bsplines::dump::dump_basis;
+use complex_bspline::bsplines::{
+    basis::BSplineBasis,
+    complex::{ComplexBSplineBasis, ComplexBSplineBasisConfig},
+    real::BSplineBasisConfig,
+};
+use complex_bspline::knots::complex::EcsConfig;
 fn main() {
     let ecs_config = EcsConfig {
         r0: 5.0,

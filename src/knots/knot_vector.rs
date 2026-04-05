@@ -1,17 +1,18 @@
 use crate::scalar::BSplineScalar;
-
-pub trait KnotVector<T: BSplineScalar> {
+use num_complex::ComplexFloat;
+pub trait KnotVector {
+    type Scalar: BSplineScalar;
     type Config;
 
     fn build(config: Self::Config) -> Self;
 
-    fn get_knots(&self) -> &[T];
+    fn get_knots(&self) -> &[Self::Scalar];
 
     fn get_outfile(&self) -> &'static str {
         "knots.txt"
     }
 
-    fn in_interval(&self, x: T, i: usize) -> bool {
+    fn in_interval(&self, x: Self::Scalar, i: usize) -> bool {
         x.re() >= self.get_knots()[i].re() && x.re() < self.get_knots()[i + 1].re()
     }
 

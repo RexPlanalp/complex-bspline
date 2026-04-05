@@ -1,11 +1,11 @@
 use crate::bsplines::basis::BSplineBasis;
-use crate::knots::complex::{ComplexKnotVector, ComplexKnotConfig, EcsConfig};
-use crate::knots::knot_vector::KnotVector;
+use crate::bsplines::math::{b_internal, db_internal};
 use crate::bsplines::real::BSplineBasisConfig;
+use crate::ecs::{ecs_x, find_best_r0};
+use crate::knots::complex::{ComplexKnotConfig, ComplexKnotVector, EcsConfig};
+use crate::knots::knot_vector::KnotVector;
 use crate::knots::real::{KnotConfig, RealKnotVector};
 use num_complex::Complex64;
-use crate::ecs::{ecs_x, find_best_r0};
-use crate::bsplines::math::{b_internal, db_internal};
 
 pub struct ComplexBSplineBasisConfig {
     pub config: BSplineBasisConfig,
@@ -39,8 +39,7 @@ impl BSplineBasis<Complex64> for ComplexBSplineBasis {
             end: knot_config.end,
         });
 
-        config.ecs_config.r0 =
-            find_best_r0(real_knot_vector.get_knots(), config.ecs_config.r0);
+        config.ecs_config.r0 = find_best_r0(real_knot_vector.get_knots(), config.ecs_config.r0);
 
         let complex_knot_config = ComplexKnotConfig {
             knot_config,

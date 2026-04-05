@@ -3,7 +3,7 @@ use crate::scalar::BSplineScalar;
 
 pub trait BSplineBasis<T: BSplineScalar> {
     type Config;
-    type KV: KnotVector<T>;
+    type KV: KnotVector;
 
     fn new(config: Self::Config) -> Self;
     fn b(&self, i: usize, x: f64) -> T;

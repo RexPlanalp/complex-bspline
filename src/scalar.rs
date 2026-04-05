@@ -1,6 +1,5 @@
-
-use num_complex::{ComplexFloat, Complex64};
-use num_traits::{Zero, One};
+use num_complex::{Complex64, ComplexFloat};
+use num_traits::{One, Zero};
 pub trait BSplineScalar: ComplexFloat<Real = f64> + Zero + One {
     fn from_usize(n: usize) -> Self;
 }

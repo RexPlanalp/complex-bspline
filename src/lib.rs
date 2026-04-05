@@ -1,4 +1,4 @@
-pub mod knots;
 pub mod bsplines;
-pub mod scalar;
 pub mod ecs;
+pub mod knots;
+pub mod scalar;

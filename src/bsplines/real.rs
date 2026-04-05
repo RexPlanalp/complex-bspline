@@ -1,7 +1,7 @@
 use crate::bsplines::basis::BSplineBasis;
-use crate::knots::real::{KnotConfig, RealKnotVector};
+use crate::bsplines::math::{b_internal, db_internal};
 use crate::knots::knot_vector::KnotVector;
-use crate::bsplines::math::{b_internal,db_internal};
+use crate::knots::real::{KnotConfig, RealKnotVector};
 pub struct BSplineBasisConfig {
     pub start: f64,
     pub end: f64,

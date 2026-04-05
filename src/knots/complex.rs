@@ -1,6 +1,6 @@
+use crate::ecs::{ecs_x, find_best_r0};
 use crate::knots::{knot_vector::KnotVector, real::KnotConfig};
 use num_complex::{Complex64, ComplexFloat};
-use crate::ecs::{ecs_x, find_best_r0};
 pub struct EcsConfig {
     pub r0: f64,
     pub eta: f64,
@@ -16,7 +16,8 @@ pub struct ComplexKnotVector {
     config: ComplexKnotConfig,
 }
 
-impl KnotVector<Complex64> for ComplexKnotVector {
+impl KnotVector for ComplexKnotVector {
+    type Scalar = Complex64;
     type Config = ComplexKnotConfig;
 
     fn build(mut config: Self::Config) -> Self {

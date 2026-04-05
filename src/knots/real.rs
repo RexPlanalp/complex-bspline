@@ -10,7 +10,8 @@ pub struct RealKnotVector {
     config: KnotConfig,
 }
 
-impl KnotVector<f64> for RealKnotVector {
+impl KnotVector for RealKnotVector {
+    type Scalar = f64;
     type Config = KnotConfig;
 
     fn build(config: Self::Config) -> Self {
