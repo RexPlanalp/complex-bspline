@@ -41,7 +41,7 @@ impl<'a, B: BSplineBasis> BSplineBasisIntegrator<'a, B> {
                 let w = <<B as BSplineBasis>::KV as KnotVector>::Scalar::from_f64(w) * half_b_minus_a;
                 let x = half_b_minus_a * r + half_b_plus_a;
                 
-                let integrand_val = self.basis.b_at_scalar(i, x) * self.basis.b_at_scalar(j, x);
+                let integrand_val = f(self.basis, i, j, x);
                 
                 result = result + w * integrand_val;
             }
