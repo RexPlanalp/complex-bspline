@@ -1,4 +1,5 @@
 use crate::knots::knot_vector::KnotVector;
+use crate::bsplines::math::{b_internal, db_internal};
 
 pub trait BSplineBasis {
     type Config;
@@ -10,4 +11,14 @@ pub trait BSplineBasis {
     fn n_basis(&self) -> usize;
     fn order(&self) -> usize;
     fn degree(&self) -> usize;
+
+    fn b_at_scalar(&self, i: usize, x: <Self::KV as KnotVector>::Scalar)
+            -> <Self::KV as KnotVector>::Scalar {
+        b_internal(i, x, self.knot_vector(), self.degree())
+    }
+
+    fn db_at_scalar(&self, i: usize, x: <Self::KV as KnotVector>::Scalar)
+            -> <Self::KV as KnotVector>::Scalar {
+        db_internal(i, x, self.knot_vector(), self.degree())
+    }
 }
