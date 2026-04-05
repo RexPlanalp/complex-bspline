@@ -3,7 +3,6 @@ use crate::knots::knot_vector::KnotVector;
 use num_traits::Zero;
 use std::cmp::{min,max};
 use crate::scalar::BSplineScalar;
-use crate::bsplines::math::b_internal;
 pub struct BSplineBasisIntegrator<'a, B: BSplineBasis> {
     basis: &'a B,
     roots: &'static [f64],
@@ -11,11 +10,15 @@ pub struct BSplineBasisIntegrator<'a, B: BSplineBasis> {
 }
 
 impl<'a, B: BSplineBasis> BSplineBasisIntegrator<'a, B> {
-    pub fn integrate(
+    pub fn integrate<F>(
         &self,
         i: usize,
         j: usize,
-    ) -> <<B as BSplineBasis>::KV as KnotVector>::Scalar {
+        f: F
+    ) -> <<B as BSplineBasis>::KV as KnotVector>::Scalar 
+    where 
+        F: Fn(&B, usize, usize, <B::KV as KnotVector>::Scalar) -> <B::KV as KnotVector>::Scalar,
+    {
         let mut result = <<B as BSplineBasis>::KV as KnotVector>::Scalar::zero();
         
         let half = <<B as BSplineBasis>::KV as KnotVector>::Scalar::from_f64(0.5);
