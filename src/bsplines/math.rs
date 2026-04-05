@@ -57,7 +57,7 @@ where
             T::zero()
         };
 
-        let term2 = if denom2.abs() > 0.0 {
+        let term2 = if denom2.abs() != 0.0 {
             <T as BSplineScalar>::from_usize(degree) / denom2 * b_internal(i + 1, x, knot_vector,degree - 1)
         } else {
             T::zero()
