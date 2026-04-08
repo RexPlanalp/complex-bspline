@@ -1,0 +1,41 @@
+use crate::config::basis::BasisConfig;
+use crate::config::ecs::EcsConfig;
+use crate::knots::complex::ComplexKnotVector;
+use crate::core::basis::BSplineBasis;
+use crate::transform::ecs::ecs_x;
+
+pub struct ComplexBSplineBasis {
+    knot_vector: ComplexKnotVector,
+    config: BasisConfig,
+    ecs_config: EcsConfig
+}
+
+impl BSplineBasis for ComplexBSplineBasis {
+    type KV = ComplexKnotVector;
+
+    fn b(&self, i: usize, x: f64) -> <Self::KV as crate::core::knot_vector::KnotVector>::Scalar {
+        let x = ecs_x(x, self.ecs_config.r0, self.ecs_config.eta);
+        crate::core::eval::b(i, x, self.knot_vector(), self.degree())
+    }
+
+    fn db(&self, i: usize, x: f64) -> <Self::KV as crate::core::knot_vector::KnotVector>::Scalar {
+        let x = ecs_x(x, self.ecs_config.r0, self.ecs_config.eta);
+        crate::core::eval::db(i, x, self.knot_vector(), self.degree())
+    }
+
+    fn knot_vector(&self) -> &Self::KV {
+        &self.knot_vector
+    }
+
+    fn n_basis(&self) -> usize {
+        self.config.order
+    }
+
+    fn order(&self) -> usize {
+        self.config.order
+    }
+
+    fn degree(&self) -> usize {
+        self.config.order - 1
+    }
+}

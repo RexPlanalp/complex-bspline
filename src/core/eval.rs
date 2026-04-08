@@ -1,7 +1,6 @@
 use crate::core::knot_vector::KnotVector;
 use crate::core::scalar::BSplineScalar;
 use num_traits::{Zero, One};
-use num_complex::{ComplexFloat,Complex64};
 
 pub fn b<K>(i: usize, x: K::Scalar, knot_vector: &K, degree: usize) -> K::Scalar
 where
