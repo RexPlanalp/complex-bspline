@@ -1,7 +1,16 @@
 use num_complex::Complex64;
 use num_traits::{One, Zero};
+use core::ops::{Add, Div, Mul, Sub};
 
-pub trait BSplineScalar: Copy + Zero + One {
+pub trait BSplineScalar:
+    Copy
+    + Zero
+    + One
+    + Add<Output = Self>
+    + Sub<Output = Self>
+    + Mul<Output = Self>
+    + Div<Output = Self>
+{
     fn from_usize(n: usize) -> Self;
     fn from_f64(f: f64) -> Self;
     fn real(self) -> f64;
