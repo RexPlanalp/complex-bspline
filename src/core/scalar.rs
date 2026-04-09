@@ -10,6 +10,7 @@ pub trait BSplineScalar:
     + Sub<Output = Self>
     + Mul<Output = Self>
     + Div<Output = Self>
+    + PartialEq
 {
     fn from_usize(n: usize) -> Self;
     fn from_f64(f: f64) -> Self;

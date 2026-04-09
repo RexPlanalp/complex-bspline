@@ -5,3 +5,4 @@ pub mod error;
 pub mod io;
 pub mod knots;
 pub mod transform;
+pub mod integrate;
