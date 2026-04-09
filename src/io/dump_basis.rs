@@ -1,20 +1,19 @@
-use crate::core::dump::Dump;
 use crate::core::basis::BSplineBasis;
+use crate::core::knot_vector::KnotVector;
 use crate::core::scalar::BSplineScalar;
+use crate::io::dump::Dump;
 use crate::io::dump_knots::KnotsDump;
+use ndarray::linspace;
 use std::fs::File;
 use std::io::{BufWriter, Write};
-use ndarray::linspace;
-use crate::core::knot_vector::KnotVector;
 pub struct BasisDump {
-    pub samples: usize
+    pub samples: usize,
 }
 
-impl<B: BSplineBasis> Dump<B> for BasisDump{
+impl<B: BSplineBasis> Dump<B> for BasisDump {
     fn dump(&self, obj: &B) -> std::io::Result<()> {
-        let knots_dumper = KnotsDump{};
+        let knots_dumper = KnotsDump {};
         knots_dumper.dump(obj.knot_vector())?;
-
 
         let output_file = File::create("output/B.txt")?;
         let mut writer = BufWriter::new(output_file);
@@ -33,24 +32,24 @@ impl<B: BSplineBasis> Dump<B> for BasisDump{
             }
         }
 
-    let output_file = File::create("output/dB.txt")?;
-    let mut writer = BufWriter::new(output_file);
+        let output_file = File::create("output/dB.txt")?;
+        let mut writer = BufWriter::new(output_file);
 
-    for i in 0..obj.n_basis() {
-        for &x in &x_range {
-            let val = obj.db(i, x);
-            writeln!(writer, "{} {}", val.real(), val.imag())?;
+        for i in 0..obj.n_basis() {
+            for &x in &x_range {
+                let val = obj.db(i, x);
+                writeln!(writer, "{} {}", val.real(), val.imag())?;
+            }
         }
-    }
 
-    let metadata_file = File::create("output/basis_meta.txt")?;
-    let mut writer = BufWriter::new(metadata_file);
+        let metadata_file = File::create("output/basis_meta.txt")?;
+        let mut writer = BufWriter::new(metadata_file);
 
-    writeln!(writer, "{}", obj.n_basis())?;
-    for &x in &x_range {
-        writeln!(writer, "{x}")?;
-    }
+        writeln!(writer, "{}", obj.n_basis())?;
+        for &x in &x_range {
+            writeln!(writer, "{x}")?;
+        }
 
-    Ok(())
+        Ok(())
     }
 }

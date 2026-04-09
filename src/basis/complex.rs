@@ -1,10 +1,10 @@
 use crate::config::basis::BasisConfig;
 use crate::config::ecs::EcsConfig;
-use crate::knots::complex::ComplexKnotVector;
-use crate::core::basis::BSplineBasis;
-use crate::transform::ecs::ecs_x;
-use crate::error::Result;
 use crate::config::knots::KnotConfig;
+use crate::core::basis::BSplineBasis;
+use crate::error::Result;
+use crate::knots::complex::ComplexKnotVector;
+use crate::transform::ecs::ecs_x;
 
 pub struct ComplexBSplineBasis {
     knot_vector: ComplexKnotVector,
@@ -15,12 +15,20 @@ impl BSplineBasis for ComplexBSplineBasis {
     type KV = ComplexKnotVector;
 
     fn b(&self, i: usize, x: f64) -> <Self::KV as crate::core::knot_vector::KnotVector>::Scalar {
-        let x = ecs_x(x, self.knot_vector.ecs_config.r0, self.knot_vector.ecs_config.eta);
+        let x = ecs_x(
+            x,
+            self.knot_vector.ecs_config.r0,
+            self.knot_vector.ecs_config.eta,
+        );
         crate::core::eval::b(i, x, self.knot_vector(), self.degree())
     }
 
     fn db(&self, i: usize, x: f64) -> <Self::KV as crate::core::knot_vector::KnotVector>::Scalar {
-        let x = ecs_x(x, self.knot_vector.ecs_config.r0, self.knot_vector.ecs_config.eta);
+        let x = ecs_x(
+            x,
+            self.knot_vector.ecs_config.r0,
+            self.knot_vector.ecs_config.eta,
+        );
         crate::core::eval::db(i, x, self.knot_vector(), self.degree())
     }
 
@@ -43,7 +51,6 @@ impl BSplineBasis for ComplexBSplineBasis {
 
 impl ComplexBSplineBasis {
     pub fn try_new(config: BasisConfig, ecs_config: EcsConfig) -> Result<Self> {
-
         let knot_config = KnotConfig {
             n_knots: config.n_basis + config.order,
             multiplicity: config.order - 1,
@@ -55,7 +62,7 @@ impl ComplexBSplineBasis {
 
         Ok(Self {
             knot_vector,
-            config
+            config,
         })
     }
 }

@@ -1,8 +1,8 @@
 use crate::config::basis::BasisConfig;
-use crate::knots::real::RealKnotVector;
-use crate::core::basis::BSplineBasis;
 use crate::config::knots::KnotConfig;
+use crate::core::basis::BSplineBasis;
 use crate::error::Result;
+use crate::knots::real::RealKnotVector;
 
 pub struct RealBSplineBasis {
     knot_vector: RealKnotVector,
@@ -39,7 +39,6 @@ impl BSplineBasis for RealBSplineBasis {
 
 impl RealBSplineBasis {
     pub fn try_new(config: BasisConfig) -> Result<Self> {
-
         let knot_config = KnotConfig {
             n_knots: config.n_basis + config.order,
             multiplicity: config.order - 1,
@@ -51,7 +50,7 @@ impl RealBSplineBasis {
 
         Ok(Self {
             knot_vector,
-            config
+            config,
         })
     }
 }

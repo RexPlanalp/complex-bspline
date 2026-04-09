@@ -1,6 +1,6 @@
+use core::ops::{Add, Div, Mul, Sub};
 use num_complex::Complex64;
 use num_traits::{One, Zero};
-use core::ops::{Add, Div, Mul, Sub};
 
 pub trait BSplineScalar:
     Copy
