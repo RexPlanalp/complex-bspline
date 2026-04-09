@@ -1,10 +1,11 @@
 use bspline_basis::basis::complex::ComplexBSplineBasis;
 use bspline_basis::config::basis::BasisConfig;
 use bspline_basis::config::ecs::EcsConfig;
+use bspline_basis::core::basis::BSplineBasis;
 use bspline_basis::io::dump::Dump;
 use bspline_basis::io::dump_basis::BasisDump;
 use std::f64::consts::PI;
-
+use bspline_basis::integrate::basis_integrator::BSplineBasisIntegrator;
 fn main() {
     let basis_config = BasisConfig {
         n_basis: 30,
@@ -26,4 +27,14 @@ fn main() {
     basis_dumper
         .dump(&complex_basis)
         .expect("Failed to dump BSpline Basis");
+
+    let integrator = BSplineBasisIntegrator::new(&complex_basis);
+
+    let val = integrator.integrate(28, 28, |basis, i, j, x| {
+    basis.eval_b(i, x) * basis.eval_b(j, x)
+    });
+
+    println!("{val}");
+
+
 }
